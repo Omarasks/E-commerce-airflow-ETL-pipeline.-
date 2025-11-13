@@ -1,45 +1,61 @@
-Overview
+Overview - E-commerce airflow ETL pipeline
 ========
+<img width="6834" height="2368" alt="Blank diagram - Page 1 (3)" src="https://github.com/user-attachments/assets/e2e9842f-f700-4cec-a700-847b33fc4892" />
 
-Welcome to Astronomer! This project was generated after you ran 'astro dev init' using the Astronomer CLI. This readme describes the contents of the project, as well as how to run Apache Airflow on your local machine.
+Modern ETL pipeline built with Apache Airflow, Docker, and PostgreSQL, extracting live product data from a public e-commerce API , transforming and storing it in a postgres datatbase for analytics. Using data engineering best practices, modular DAG design, and real-world pipeline orchestration.
 
 Project Contents
 ================
 
-Your Astro project contains the following files and folders:
+This project demonstrates a production-ready ETL pipeline that:
 
-- dags: This folder contains the Python files for your Airflow DAGs. By default, this directory includes one example DAG:
-    - `example_astronauts`: This DAG shows a simple ETL pipeline example that queries the list of astronauts currently in space from the Open Notify API and prints a statement for each astronaut. The DAG uses the TaskFlow API to define tasks in Python, and dynamic task mapping to dynamically print a statement for each astronaut. For more on how this DAG works, see our [Getting started tutorial](https://www.astronomer.io/docs/learn/get-started-with-airflow).
-- Dockerfile: This file contains a versioned Astro Runtime Docker image that provides a differentiated Airflow experience. If you want to execute other commands or overrides at runtime, specify them here.
-- include: This folder contains any additional files that you want to include as part of your project. It is empty by default.
-- packages.txt: Install OS-level packages needed for your project by adding them to this file. It is empty by default.
-- requirements.txt: Install Python packages needed for your project by adding them to this file. It is empty by default.
-- plugins: Add custom or community plugins for your project to this file. It is empty by default.
-- airflow_settings.yaml: Use this local-only file to specify Airflow Connections, Variables, and Pools instead of entering them in the Airflow UI as you develop DAGs in this project.
+- Extracts product data from an open eCommerce REST API
 
-Deploy Your Project Locally
+- Transforms the JSON data into a clean relational structure
+
+- Loads it into a PostgreSQL database for analytics and BI consumption
+
+- Schedules and monitors the workflow using Apache Airflow
+
+Data Stack
 ===========================
 
-Start Airflow on your local machine by running 'astro dev start'.
+| Component                       | Purpose                                    |
+| ------------------------------- | ------------------------------------------ |
+| **Apache Airflow**              | DAG scheduling, task dependency management |
+| **PostgreSQL**                  | Destination database for transformed data  |
+| **Docker Compose**              | Containerized local development            |
+| **Python (requests, psycopg2)** | API integration and transformation logic   |
+| **Astronomer CLI (`astro`)**    | Simplified Airflow environment management  |
 
-This command will spin up five Docker containers on your machine, each for a different Airflow component:
-
-- Postgres: Airflow's Metadata Database
-- Scheduler: The Airflow component responsible for monitoring and triggering tasks
-- DAG Processor: The Airflow component responsible for parsing DAGs
-- API Server: The Airflow component responsible for serving the Airflow UI and API
-- Triggerer: The Airflow component responsible for triggering deferred tasks
-
-When all five containers are ready the command will open the browser to the Airflow UI at http://localhost:8080/. You should also be able to access your Postgres Database at 'localhost:5432/postgres' with username 'postgres' and password 'postgres'.
-
-Note: If you already have either of the above ports allocated, you can either [stop your existing Docker containers or change the port](https://www.astronomer.io/docs/astro/cli/troubleshoot-locally#ports-are-not-available-for-my-local-airflow-webserver).
 
 Deploy Your Project to Astronomer
 =================================
+API Source
 
-If you have an Astronomer account, pushing code to a Deployment on Astronomer is simple. For deploying instructions, refer to Astronomer documentation: https://www.astronomer.io/docs/astro/deploy-code/
+Endpoint: https://api.freeapi.app/api/v1/public/randomproducts
 
-Contact
+Type: RESTful JSON API
+
+Pagination: ?page=<num> supported
+
+Data: Product metadata (id, title, category, price)
+
+
+Future Improvements
 =======
 
-The Astronomer CLI is maintained with love by the Astronomer team. To report a bug or suggest a change, reach out to our support.
+
+✅ Add data quality checks (e.g. Great Expectations)
+
+✅ Add S3 data lake stage before loading to Postgres
+
+🕓 Add dbt models for analytics
+
+🕓 Integrate Airbyte for connector-based ingestion 
+
+Author 
+=======
+Farouq Omar 
+Business Intelligence / Analytics Engineer
+
